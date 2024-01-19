@@ -19,7 +19,7 @@ import Appointment from "components/Appointment";
 */
 
 describe("Appointment", () => {
-  it("renders without crashing", () => {
+  test("renders without crashing", () => {
     render(<Appointment />);
   });
 });
