@@ -2,9 +2,11 @@ import React from "react";
 
 import { fireEvent } from "@testing-library/react";
 
-import { render, cleanup, waitForElement, prettyDOM, getAllByTestId, getByAltText, getByText, getByPlaceholderText } from "@testing-library/react";
+import { render, cleanup, waitForElement, prettyDOM, getAllByTestId, getByAltText, getByText, getByPlaceholderText, queryByText } from "@testing-library/react";
 
 import Application from "components/Application";
+import DayListItem from "components/DayListItem";
+import DayList from "components/DayList";
 
 afterEach(cleanup);
 
@@ -35,7 +37,21 @@ describe("Application", () => {
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
     fireEvent.click(getByText(appointment, "Save"));
+    expect(getByText(appointment, "Saving")).toBeInTheDocument();
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
 
     console.log(prettyDOM(appointment));
+  });
+
+  it("Find the specific day node that contains the text Monday", async () => {
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Monday"));
+
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday" && "no spots remaining")
+
+    );
+
+    console.log(prettyDOM(day));
   });
 });
