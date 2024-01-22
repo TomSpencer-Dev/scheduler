@@ -34,24 +34,18 @@ describe("Application", () => {
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
       target: { value: "Lydia Miller-Jones" }
     });
-    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
+    fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
     fireEvent.click(getByText(appointment, "Save"));
+
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
+
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
 
-    console.log(prettyDOM(appointment));
-  });
-
-  it("Find the specific day node that contains the text Monday", async () => {
-    const { container } = render(<Application />);
-    await waitForElement(() => getByText(container, "Monday"));
-
     const day = getAllByTestId(container, "day").find(day =>
-      queryByText(day, "Monday" && "no spots remaining")
-
+      queryByText(day, "Monday")
     );
 
-    console.log(prettyDOM(day));
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
 });
